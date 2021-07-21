@@ -15,13 +15,19 @@ class ArtisteAdmin(admin.ModelAdmin):
 
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
-	list_display = ('titre', 'artiste.prenom', 'release_date')
+	list_display = ('titre', 'nom', 'release_date')
 	list_filter = ('titre', 'artiste', 'release_date')
+	def nom(self, obj):
+		return obj.artiste.prenom, obj.artiste.nom
 	pass
 
 @admin.register(Song)
 class SongAdmin(admin.ModelAdmin):
-	list_display = ('song_title', 'album', 'duration', 'lyrics')
+	list_display = ('song_title', 'albums', 'duration', 'lyrics')
 	list_filter = ('album', 'duration')
+
+	def albums(self, obj):
+		return obj.album.titre
+
 	pass
 
