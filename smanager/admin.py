@@ -1,3 +1,4 @@
+import time
 from django.contrib import admin
 from .models import Artiste, Album, Song
 
@@ -23,11 +24,16 @@ class AlbumAdmin(admin.ModelAdmin):
 
 @admin.register(Song)
 class SongAdmin(admin.ModelAdmin):
-	list_display = ('song_title', 'albums', 'duration', 'lyrics')
+	list_display = ('song_title', 'albums', 'duration_time', 'lyrics')
 	list_filter = ('album', 'duration')
 
 	def albums(self, obj):
 		return obj.album.titre
+
+	def duration_time(self, obj):
+		return time.strftime('%M:%S', time.gmtime(obj.duration))
+		duration_time.short_description = 'Duration'
+		duration_time.admin_order_field = 'duration'
 
 	pass
 

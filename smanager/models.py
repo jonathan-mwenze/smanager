@@ -13,7 +13,7 @@ class Artiste(models.Model):
 class Album(models.Model):
 	titre = models.CharField(max_length=255)
 	artiste = models.ForeignKey(Artiste, on_delete=models.CASCADE)
-	release_date = models.DateField(auto_now_add=True)
+	release_date = models.DateField()
 
 	def __str__(self):
 		return "{} {} {} ".format(self.titre, self.artiste, self.release_date)
