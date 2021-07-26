@@ -1,6 +1,15 @@
 from django.shortcuts import render
-from .models import Song, Artiste
+from django.views.generic import ListView
+from .models import Song 
+import json
 
-def index(request):
-	songs = Artiste.objects.all()
-	return render(request, 'smanager/index.html', {'songs':songs})
+
+class IndexListView(ListView):
+	model = Song
+	template_name = 'smanager/index.html'
+
+	def get_content_data(self, **kwargs):
+		context = super().get_content_data(**kwargs)
+		context["qs_json"] = json.dumps(list(Song.objects.values))
+		return context
+	
