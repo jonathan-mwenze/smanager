@@ -3,8 +3,10 @@
 {% load static %}
 {% block content %}
 
-<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css"
-        rel="stylesheet" type="text/css" /> 
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css"
+/>
    
 <div class="container" style="margin-top: 8%;">
     <div class="col-md-6 col-md-offset-3">     
@@ -16,6 +18,12 @@
                 <div class="form-group">
                     <div class="input-group">
                         <input id="autosearch" class="form-control" type="text" name="search" placeholder="Search..." required/>
+
+                        <div id="autocomplete" class="autocomplete">
+                          <input class="autocomplete-input" />
+                          <ul class="autocomplete-result-list"></ul>
+                        </div>
+
                         <span class="input-group-btn">
                              <button class="btn btn-info" type="submit">
                                  <i class="glyphicon glyphicon-search" aria-hidden="true"></i> Search
@@ -35,29 +43,27 @@
     {% endfor %}
 </div>
 
-
-<script type="text/javascript">
-	const data = '{{qs_json}}'
-	console.log(data)
-
-	const rdata = JSON.parse(data.replace(/&quot;/g, '"'))
-	console.log(rdata)
-    
-    const input = document.getElementById('autosearch')
-    console.log(input)
-
-    let filteredArr = []
-
-    input.addEventListener('keyup', (e)=>{
-    	filteredArr = rdata.filter(song=> song['song_title']).includes(e.target.value))
-
-        console.log(filteredArr.length > 0
-        if (fil)
-    })	
-
-</script>
-<script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>
 {% endblock %}
+
+
+<script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+<script type="text/javascript">
+  new Autocomplete('#autocomplete', {
+
+    search : input =>{
+      console.log(input)
+      const url = 'index'
+      return new Promise(resolve =>{
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          resolve(data.data)
+        })
+      })
+    },
+    onSubmit : result => {
+      window.open.('/places/?search=${result}')
+    }
+  })
+</script>
