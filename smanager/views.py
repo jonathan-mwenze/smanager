@@ -1,8 +1,9 @@
 from django.shortcuts import render
 #from django.views.generic import ListView
 from .models import Song 
-import json
+#import json
 from django.http import JsonResponse
+from .models import Song
 
 
 """class IndexListView(ListView):
@@ -14,12 +15,10 @@ from django.http import JsonResponse
 		context["qs_json"] = json.dumps(list(Song.objects.values))
 		return context"""
 def autosearch(request):
-	songs = request.GET.get('song_title')
-	payload = []
-	if songs:
-		songs_titles = Song.objects.all()
-
-		for song_name in songs_titles:
-			payload.append(song_name.song_title)
-
-	return JsonResponse({'status' :200 , 'data' : payload})
+	if 'term' in request.GET:
+		qs = Song.objects.filter(song_title__istartswith=request.GET.get('term'))
+		titles = list()
+		for song in qs:
+			titles.append(song.song_title)
+		return JsonResponse(titles, safe=False)
+	return render(request, 'smanager/index.html')
