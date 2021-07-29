@@ -16,7 +16,8 @@ from .models import Song
 		return context"""
 def autosearch(request):
 	if 'term' in request.GET:
-		qs = Song.objects.filter(song_title__istartswith=request.GET.get('term'))
+		#qs = Song.objects.filter(song_title__istartswith=request.GET.get('term'))
+		qs = Song.objects.filter(song_title__contains=request.GET.get('term'))
 		titles = list()
 		for song in qs:
 			titles.append(song.song_title)
