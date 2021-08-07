@@ -32,3 +32,5 @@ def search_song(request):
 		return render(request, 'smanager/search_song.html',{'search':search, 'songsearched':songsearched})
 	else:
 		return render(request, 'smanager/search_song.html',{})
+
+
