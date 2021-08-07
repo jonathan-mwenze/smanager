@@ -23,3 +23,12 @@ def autosearch(request):
 			titles.append(song.song_title)
 		return JsonResponse(titles, safe=False)
 	return render(request, 'smanager/index.html')
+
+
+def search_song(request):
+	if request.method == "POST":
+		search = request.POST['search']
+		songsearched = Song.objects.filter(lyrics__contains=search)
+		return render(request, 'smanager/search_song.html',{'search':search, 'songsearched':songsearched})
+	else:
+		return render(request, 'smanager/search_song.html',{})

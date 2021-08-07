@@ -1,0 +1,30 @@
+{% extends 'smanager/base.html' %}
+
+{% load static %}
+{% block content %}
+<div class="container">
+   {% if search %}
+     <h1 class="text-white pt-5">You Search for {{ search }}.</h1>
+
+     {% for songneed in songsearched %}
+        <div class="row pt-5">
+          <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header font-weight-bold">
+                      {{ search }}
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">Duration {{ songneed.duration }}</h5>
+                      <p class="card-text text-muted">{{ songneed.lyrics }}</p>
+                      <a href="{% url 'index' %}" class="btn btn-info">Go home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+     {% endfor %}
+
+   {% else%}
+     <h1 class="text-white pt-5">Doesn't exist</h1>
+   {% endif %}
+</div>
+{% endblock%}
